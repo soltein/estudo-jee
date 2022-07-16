@@ -3,6 +3,8 @@ package br.com.soltein.modelo;
 import java.io.Serializable;
 import java.lang.Integer;
 import java.lang.String;
+import java.util.Collection;
+
 import javax.persistence.*;
 
 /**
@@ -12,13 +14,16 @@ import javax.persistence.*;
 @Entity
 @Table(name="pessoa")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipo")
 public class Pessoa implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String nome;
 	private String telefone;
 	private String email;
-	private static final long serialVersionUID = 1L;
+	private Endereco endereco;
+	private Collection<Reserva> reservas;
 
 	public Pessoa() {
 		super();
@@ -55,4 +60,23 @@ public class Pessoa implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Embedded
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	@OneToMany(mappedBy="cliente")
+	public Collection<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Collection<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+		
 }
