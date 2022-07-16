@@ -3,6 +3,7 @@ package br.com.soltein.modelo;
 import java.io.Serializable;
 import java.lang.Double;
 import java.lang.Integer;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -17,7 +18,8 @@ public class Reserva implements Serializable {
 	private Integer id;
 	private Date data;
 	private Double valor;
-	Pessoa cliente;
+	private Pessoa cliente;
+	private Collection<DiariaReservada> diarias;
 
 	public Reserva() {
 		super();
@@ -56,5 +58,16 @@ public class Reserva implements Serializable {
 	public void setCliente(Pessoa cliente) {
 		this.cliente = cliente;
 	}
+
+	@OneToMany(mappedBy = "reserva", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	public Collection<DiariaReservada> getDiarias() {
+		return diarias;
+	}
+
+	public void setDiarias(Collection<DiariaReservada> diarias) {
+		this.diarias = diarias;
+	}
 		  
+	
+	
 }
